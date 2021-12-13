@@ -30,12 +30,11 @@ public class AuthController {
     private ResponseEntity<String> signUp(@RequestBody Account account){
         // check if not exist in Postgres
         // add to database
-        // create uuid, add to redis
         String uuid = UUID.randomUUID().toString();
         String response = redisService.set(uuid, account.getEmail(), 60*60*3);
         emailServiceComponent.sendSimpleMessage(account.getEmail(),
-                "Confirmation letter", "Please, confirm your email via http://localhost:8080/auth/confirm-email/" + uuid);
-        // send confirmation email
+                "Confirmation letter on IASA SC",
+                "Please, confirm your email via http://localhost:8080/auth/confirm-email/" + uuid +"\nIt will expire in 3 hours.");
         return ResponseEntity.ok(uuid);
     }
 
@@ -47,13 +46,10 @@ public class AuthController {
         catch (Exception e){
             return ResponseEntity.notFound().build();
         }
-        // check if confirmation exists in database
-        // if no, delete record and confirm account
-        if(true){
-            //delete record
+        if(true){ // email exists in Postgres database
             try{
                 String response = redisService.getAndDelete(uuid);
-                //confirm account
+                //confirm account in Postgres
                 return ResponseEntity.ok(response);
             }
             catch (Exception e){
