@@ -113,7 +113,6 @@ public class AuthController {
 
     @PostMapping("/signup")
     public void signup(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
         try{
             StringBuffer requestBodyStr = new StringBuffer();
             String requestLine;
@@ -239,7 +238,7 @@ public class AuthController {
     public ResponseEntity<String> createRole(@RequestBody String roleName){
         try{
             long id = authService.createRole(roleName);
-            final String location = String.format("/identity/%d", id);
+            final String location = String.format("/auth/%d", id);
             return ResponseEntity.created(URI.create(location)).body(String.valueOf(id));
         }
         catch (IllegalArgumentException e){

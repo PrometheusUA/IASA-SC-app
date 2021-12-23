@@ -43,8 +43,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(PATCH, "/auth").hasAnyAuthority("Student")
                 .antMatchers(PATCH, "/auth/**").hasAnyAuthority("Admin")
                 .antMatchers(POST, "/auth/signin", "/auth/signup").permitAll()
-                .antMatchers(GET,"/auth/token/refresh").permitAll()
+                .antMatchers(GET,"/auth/token/refresh", "/auth/confirm-email/**").permitAll()
                 .antMatchers("/auth/**").hasAnyAuthority("Student")
+                .antMatchers(GET, "/news/**").permitAll()
+                .antMatchers(POST, "/news/**").hasAnyAuthority("Admin", "Elderly", "Teacher")
+                .antMatchers(PATCH, "/news/**").hasAnyAuthority("Admin", "Elderly", "Teacher")
+                .antMatchers(DELETE, "/news/**").hasAnyAuthority("Admin")
                 .anyRequest().permitAll();
 
         http.addFilterBefore(new CustomAuthorizationFilter(authService), UsernamePasswordAuthenticationFilter.class);

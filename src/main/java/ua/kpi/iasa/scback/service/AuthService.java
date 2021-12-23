@@ -132,6 +132,7 @@ public class AuthService implements UserDetailsService{
         if (user.isBlocked() != foundUser.isBlocked()) foundUser.setBlocked(user.isBlocked());
         if (user.isDeleted() != foundUser.isDeleted()) foundUser.setDeleted(user.isDeleted());
         if (user.isConfirmed() != foundUser.isConfirmed()) foundUser.setConfirmed(user.isConfirmed());
+        if (user.isEmailConfirmed() != foundUser.isEmailConfirmed()) foundUser.setEmailConfirmed(user.isEmailConfirmed());
         Stream<Role> foundUserRoles = foundUser.getAccountRoles().stream().map(AccountRole::getRole);
         List<Role> listFoundUserRoles = foundUserRoles.toList();
         if (user.getRoles() != null && !user.getRoles().equals(listFoundUserRoles)) {
@@ -166,6 +167,13 @@ public class AuthService implements UserDetailsService{
 
     public Role fetchRoleById(int id) {
         final Optional<Role> foundRole = roleRepo.findById(id);
+        if (foundRole.isEmpty())
+            throw new IllegalArgumentException("User not found");
+        return foundRole.get();
+    }
+
+    public Role fetchRoleByName(String name){
+        final Optional<Role> foundRole = roleRepo.findByRoleName(name);
         if (foundRole.isEmpty())
             throw new IllegalArgumentException("User not found");
         return foundRole.get();

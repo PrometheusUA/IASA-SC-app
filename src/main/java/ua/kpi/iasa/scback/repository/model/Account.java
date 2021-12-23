@@ -38,11 +38,15 @@ public final class Account {
     private boolean emailConfirmed;
     @OneToMany(mappedBy = "account", fetch = FetchType.EAGER)
     private Set<AccountRole> accountRoles;
+    @OneToMany(mappedBy = "createdBy", fetch = FetchType.LAZY)
+    private Set<News> createdNews;
+
 //    @ManyToMany(fetch = FetchType.EAGER)
 //    private Collection<Role> roles = new ArrayList<>();
 
     public Account() {
         this.accountRoles = new HashSet<>();
+        this.createdNews = new HashSet<>();
     }
 
     public Account(String password_hashed, String email, String firstname, String surname, String patronymic,
@@ -59,6 +63,7 @@ public final class Account {
         this.createdOn = new Timestamp(System.currentTimeMillis());
         this.emailConfirmed = emailConfirmed;
         this.accountRoles = new HashSet<>();
+        this.createdNews = new HashSet<>();
     }
 
 //    public Account(UserDTO userDTO) {
@@ -88,6 +93,7 @@ public final class Account {
         this.docPhoto = null;
         this.createdOn = new Timestamp(System.currentTimeMillis());
         this.accountRoles = new HashSet<>();
+        this.createdNews = new HashSet<>();
     }
 
     public Account(UserDTO userDTO, Set<AccountRole> roles){
@@ -103,6 +109,7 @@ public final class Account {
         this.docPhoto = null;
         this.accountRoles = roles;
         this.createdOn = new Timestamp(System.currentTimeMillis());
+        this.createdNews = new HashSet<>();
     }
 
     public long getId() {
@@ -219,5 +226,13 @@ public final class Account {
 
     public void setEmailConfirmed(boolean emailConfirmed) {
         this.emailConfirmed = emailConfirmed;
+    }
+
+    public Set<News> getCreatedNews() {
+        return createdNews;
+    }
+
+    public void setCreatedNews(Set<News> createdNews) {
+        this.createdNews = createdNews;
     }
 }

@@ -29,9 +29,9 @@ public class ScIasaAppBackApplication {
     @Bean
     CommandLineRunner run(AuthService authService){
         return args -> {
-            List<Role> allRoles = authService.fetchAllRoles();
-            long id = authService.createStudent(new UserDTO("pass", "admin@admin.com", "Admin", "Cool", null, null));
-            authService.update(id, new UserAdminDTO(false, false, true, true, allRoles), null);
+//            List<Role> allRoles = authService.fetchAllRoles();
+//            long id = authService.createStudent(new UserDTO("pass", "admin@admin.com", "Admin", "Cool", null, null));
+//            authService.update(id, new UserAdminDTO(false, false, true, true, allRoles), null);
         };
     }
 }
