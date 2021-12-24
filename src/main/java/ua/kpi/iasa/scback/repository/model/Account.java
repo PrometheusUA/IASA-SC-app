@@ -40,13 +40,16 @@ public final class Account {
     private Set<AccountRole> accountRoles;
     @OneToMany(mappedBy = "createdBy", fetch = FetchType.LAZY)
     private Set<News> createdNews;
-
+    @OneToMany(mappedBy = "processedBy", fetch = FetchType.LAZY)
+    private Set<Complaint> processedComplaints;
 //    @ManyToMany(fetch = FetchType.EAGER)
 //    private Collection<Role> roles = new ArrayList<>();
 
     public Account() {
         this.accountRoles = new HashSet<>();
         this.createdNews = new HashSet<>();
+        this.processedComplaints = new HashSet<>();
+
     }
 
     public Account(String password_hashed, String email, String firstname, String surname, String patronymic,
@@ -64,6 +67,8 @@ public final class Account {
         this.emailConfirmed = emailConfirmed;
         this.accountRoles = new HashSet<>();
         this.createdNews = new HashSet<>();
+        this.processedComplaints = new HashSet<>();
+
     }
 
 //    public Account(UserDTO userDTO) {
@@ -94,6 +99,8 @@ public final class Account {
         this.createdOn = new Timestamp(System.currentTimeMillis());
         this.accountRoles = new HashSet<>();
         this.createdNews = new HashSet<>();
+        this.processedComplaints = new HashSet<>();
+
     }
 
     public Account(UserDTO userDTO, Set<AccountRole> roles){
@@ -110,6 +117,8 @@ public final class Account {
         this.accountRoles = roles;
         this.createdOn = new Timestamp(System.currentTimeMillis());
         this.createdNews = new HashSet<>();
+        this.processedComplaints = new HashSet<>();
+
     }
 
     public long getId() {
@@ -234,5 +243,13 @@ public final class Account {
 
     public void setCreatedNews(Set<News> createdNews) {
         this.createdNews = createdNews;
+    }
+
+    public Set<Complaint> getProcessedComplaints() {
+        return processedComplaints;
+    }
+
+    public void setProcessedComplaints(Set<Complaint> processedComplaints) {
+        this.processedComplaints = processedComplaints;
     }
 }

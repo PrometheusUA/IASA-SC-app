@@ -39,7 +39,8 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
         String method = request.getMethod().toUpperCase();
         if(path.equals("/auth/signin") || path.equals("/auth/signup")
                 || path.equals("/auth/token/refresh") || path.startsWith("/auth/confirm-email/")
-                || path.startsWith("/news") && method.equals("GET")){
+                || path.startsWith("/news") && method.equals("GET")
+                || path.equals("/complaints") && method.equals("POST")){
             filterChain.doFilter(request, response);
         }
         else{

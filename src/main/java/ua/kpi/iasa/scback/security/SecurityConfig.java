@@ -49,6 +49,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(POST, "/news/**").hasAnyAuthority("Admin", "Elderly", "Teacher")
                 .antMatchers(PATCH, "/news/**").hasAnyAuthority("Admin", "Elderly", "Teacher")
                 .antMatchers(DELETE, "/news/**").hasAnyAuthority("Admin")
+                .antMatchers(POST, "/complaints").permitAll()
+                .antMatchers("/complaints/**").hasAnyAuthority("Admin")
                 .anyRequest().permitAll();
 
         http.addFilterBefore(new CustomAuthorizationFilter(authService), UsernamePasswordAuthenticationFilter.class);
