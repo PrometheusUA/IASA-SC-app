@@ -42,6 +42,11 @@ public class NewsService {
          return news.getId();
     }
 
+    public long count(){
+        long count = newsRepo.count();
+        return count;
+    }
+
     public void update(long id, NewsDTO newsDTO){
         News news = fetchById(id);
         if (newsDTO.getLink() != null && !newsDTO.getLink().isBlank()) news.setLink(newsDTO.getLink());

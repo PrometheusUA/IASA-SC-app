@@ -15,4 +15,6 @@ public interface NewsRepo extends JpaRepository<News, Long> {
     public List<News> findByDeleted(boolean deleted);
 
     public Page<News> findByDeleted(boolean deleted, Pageable pageable);
+
+
 }

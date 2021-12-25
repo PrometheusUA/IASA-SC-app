@@ -64,6 +64,16 @@ public class NewsController {
         }
     }
 
+    @GetMapping("/count")
+    public ResponseEntity<Long> count() {
+        try {
+            final long newsCount = newsService.count();
+            return ResponseEntity.ok(newsCount);
+        } catch (Exception e) {
+            return ResponseEntity.status(400).build();
+        }
+    }
+
     @PostMapping
     public ResponseEntity<?> create(@RequestBody NewsDTO newsDTO, @RequestHeader String authorization) {
         try {

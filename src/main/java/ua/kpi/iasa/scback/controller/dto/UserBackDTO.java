@@ -10,7 +10,7 @@ public class UserBackDTO {
     public UserBackDTO(Account user){
         this.id = user.getId();
         this.email = user.getEmail();
-        this.name = user.getFirstname();
+        this.firstname = user.getFirstname();
         this.surname = user.getSurname();
         this.patronymic = user.getPatronymic();
         this.docPhoto = user.getDocPhoto();
@@ -18,7 +18,7 @@ public class UserBackDTO {
 
     private long id;
     private String email;
-    private String name;
+    private String firstname;
     private String surname;
     private String patronymic;
     private String docPhoto;

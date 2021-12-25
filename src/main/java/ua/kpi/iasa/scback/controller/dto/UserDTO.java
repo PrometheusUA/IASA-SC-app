@@ -13,7 +13,7 @@ import java.util.Collection;
 public class UserDTO {
     private String password;
     private String email;
-    private String name;
+    private String firstname;
     private String surname;
     private String patronymic;
     private Collection<Role> roles;

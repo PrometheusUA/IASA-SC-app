@@ -88,7 +88,7 @@ public final class Account {
     public Account(UserDTO userDTO) {
         this.password_hashed = userDTO.getPassword();
         this.email = userDTO.getEmail();
-        this.firstname = userDTO.getName();
+        this.firstname = userDTO.getFirstname();
         this.surname = userDTO.getSurname();
         this.patronymic = userDTO.getPatronymic();
         this.blocked = false;
@@ -106,7 +106,7 @@ public final class Account {
     public Account(UserDTO userDTO, Set<AccountRole> roles){
         this.password_hashed = userDTO.getPassword();
         this.email = userDTO.getEmail();
-        this.firstname = userDTO.getName();
+        this.firstname = userDTO.getFirstname();
         this.surname = userDTO.getSurname();
         this.patronymic = userDTO.getPatronymic();
         this.blocked = false;

@@ -137,7 +137,7 @@ public class AuthController {
             UserDTO newUser = new UserDTO();
             newUser.setEmail(requestBody.getAsString("email"));
             newUser.setPassword(requestBody.getAsString("password"));
-            newUser.setName(requestBody.getAsString("name"));
+            newUser.setFirstname(requestBody.getAsString("firstname"));
             newUser.setSurname(requestBody.getAsString("surname"));
             newUser.setPatronymic(requestBody.getAsString("patronymic"));
 

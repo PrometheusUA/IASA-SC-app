@@ -11,6 +11,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import ua.kpi.iasa.scback.security.filter.request.LoginRequest;
 import ua.kpi.iasa.scback.security.utility.TokenUtility;
 
@@ -63,7 +64,8 @@ public class CustomAuthentificationFilter extends UsernamePasswordAuthentication
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-        if ("application/json".equals(request.getContentType())) {
+        String type = request.getContentType();
+        if ("application/json".equals(type)) {
             try {
                 StringBuffer sb = new StringBuffer();
                 String line = null;
@@ -83,6 +85,7 @@ public class CustomAuthentificationFilter extends UsernamePasswordAuthentication
             }
         }
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(this.jsonUsername, this.jsonPassword);
+        response.setHeader("Access-Control-Allow-Origin", "*");
 
         return authenticationManager.authenticate(authenticationToken);
     }

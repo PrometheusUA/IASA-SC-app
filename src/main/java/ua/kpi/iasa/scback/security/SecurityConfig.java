@@ -12,9 +12,14 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import ua.kpi.iasa.scback.security.filter.CustomAuthentificationFilter;
 import ua.kpi.iasa.scback.security.filter.CustomAuthorizationFilter;
 import ua.kpi.iasa.scback.service.AuthService;
+
+import java.util.Arrays;
 
 import static org.springframework.http.HttpMethod.*;
 
@@ -37,6 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         customAuthentificationFilter.setFilterProcessesUrl("/auth/signin");
         customAuthentificationFilter.setUsernameParameter("email");
         http.csrf().disable();
+        http.cors();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.authorizeRequests().antMatchers(POST, "/auth/role").hasAnyAuthority("Admin")
                 .antMatchers(DELETE, "/auth/**").hasAnyAuthority("Admin")
@@ -57,6 +63,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.addFilter(customAuthentificationFilter);
     }
 
+//    @Bean
+//    CorsConfigurationSource corsConfigurationSource() {
+//        CorsConfiguration configuration = new CorsConfiguration();
+//        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000", "http://localhost:3000/", "http://localhost:3000/login/"));
+//        configuration.setAllowedMethods(Arrays.asList("GET","POST","OPTIONS", "DELETE", "PUT", "PATCH"));
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        source.registerCorsConfiguration("/*", configuration);
+//        source.registerCorsConfiguration("/*/*", configuration);
+//        source.registerCorsConfiguration("/*/*/*", configuration);
+//
+//        //source.registerCorsConfiguration("/auth/signin", configuration);
+//        return source;
+//    }
 
     @Bean
     @Override

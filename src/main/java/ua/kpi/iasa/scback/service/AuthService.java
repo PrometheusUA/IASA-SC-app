@@ -114,7 +114,7 @@ public class AuthService implements UserDetailsService{
             throw new IllegalAccessException("Email can't be changed");
         // add hashing
         if (user.getPassword() != null && !user.getPassword().isBlank()) foundUser.setPassword_hashed(user.getPassword());
-        if (user.getName() != null && !user.getName().isBlank()) foundUser.setFirstname(user.getName());
+        if (user.getFirstname() != null && !user.getFirstname().isBlank()) foundUser.setFirstname(user.getFirstname());
         if (user.getSurname() != null && !user.getSurname().isBlank()) foundUser.setSurname(user.getSurname());
         if (user.getPatronymic() != null && !user.getPatronymic().isBlank()) foundUser.setPatronymic(user.getPatronymic());
         if (user.getRoles() != null && !user.getRoles().equals(
