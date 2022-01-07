@@ -143,7 +143,7 @@ public class AuthController {
 
             final long id = authService.createStudent(newUser);
             Account user = authService.fetchById(id);
-            TokenUtility tokenUtility = new TokenUtility(user.getEmail(), user.getAccountRoles().stream()
+            TokenUtility tokenUtility = new TokenUtility(user.getEmail(), id, user.getAccountRoles().stream()
                     .map(AccountRole::getRole).map(Role::getRoleName).collect(Collectors.toList()));
 
             String uuid = UUID.randomUUID().toString();
@@ -268,7 +268,7 @@ public class AuthController {
             DecodedJWT decodedJWT = TokenUtility.verifyToken(authorizationHeader);
             String email = decodedJWT.getSubject();
             Account user = authService.fetchByEmail(email);
-            TokenUtility tokenUtility = new TokenUtility(email, user.getAccountRoles().stream().map(AccountRole::getRole).map(Role::getRoleName).collect(Collectors.toList()));
+            TokenUtility tokenUtility = new TokenUtility(email, user.getId(), user.getAccountRoles().stream().map(AccountRole::getRole).map(Role::getRoleName).collect(Collectors.toList()));
             Map<String, String> tokens = tokenUtility.generateAccessToken(request.getRequestURI());
             response.setContentType(APPLICATION_JSON_VALUE);
             new ObjectMapper().writeValue(response.getOutputStream(), tokens);

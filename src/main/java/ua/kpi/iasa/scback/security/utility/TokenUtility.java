@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public final class TokenUtility {
     private final String email;
+    private final long id;
     private final List<String> roles;
 
     public static Algorithm getAlgo(){
@@ -26,6 +27,7 @@ public final class TokenUtility {
                 .withExpiresAt(new Date(System.currentTimeMillis() + Integer.parseInt(System.getenv("ACCESS_TOKEN_LIFE_millis"))))
                 .withIssuer(issuer)
                 .withClaim("roles", roles)
+                .withClaim("id", id)
                 .sign(algo);
         String refresh_token = JWT.create()
                 .withSubject(email)
@@ -45,6 +47,7 @@ public final class TokenUtility {
                 .withExpiresAt(new Date(System.currentTimeMillis() + Integer.parseInt(System.getenv("ACCESS_TOKEN_LIFE_millis"))))
                 .withIssuer(issuer)
                 .withClaim("roles", roles)
+                .withClaim("id", id)
                 .sign(algo);
         Map<String, String> tokens = new HashMap<>();
         tokens.put("access_token", access_token);

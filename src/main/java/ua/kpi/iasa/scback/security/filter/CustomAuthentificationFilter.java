@@ -14,6 +14,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.bind.annotation.CrossOrigin;
 import ua.kpi.iasa.scback.security.filter.request.LoginRequest;
 import ua.kpi.iasa.scback.security.utility.TokenUtility;
+import ua.kpi.iasa.scback.service.AuthService;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -21,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -29,11 +31,14 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @Slf4j
 public class CustomAuthentificationFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
+    private final AuthService userService;
     private String jsonUsername;
     private String jsonPassword;
+    private long id;
 
-    public CustomAuthentificationFilter(AuthenticationManager authenticationManager){
+    public CustomAuthentificationFilter(AuthenticationManager authenticationManager, AuthService userService){
         this.authenticationManager = authenticationManager;
+        this.userService = userService;
     }
 
     @Override
@@ -64,8 +69,7 @@ public class CustomAuthentificationFilter extends UsernamePasswordAuthentication
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-        String type = request.getContentType();
-        if ("application/json".equals(type)) {
+        if ("application/json".equals(request.getContentType())) {
             try {
                 StringBuffer sb = new StringBuffer();
                 String line = null;
@@ -78,8 +82,9 @@ public class CustomAuthentificationFilter extends UsernamePasswordAuthentication
                 ObjectMapper mapper = new ObjectMapper();
                 LoginRequest loginRequest = mapper.readValue(sb.toString(), LoginRequest.class);
 
-                this.jsonUsername = loginRequest.getEmail();
+                this.jsonUsername = loginRequest.getEmail().toLowerCase(Locale.ROOT);
                 this.jsonPassword = loginRequest.getPassword();
+                this.id = userService.fetchByEmail(jsonUsername).getId();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -93,7 +98,7 @@ public class CustomAuthentificationFilter extends UsernamePasswordAuthentication
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException, ServletException {
         User user = (User)authentication.getPrincipal();
-        TokenUtility tokenUtility = new TokenUtility(user.getUsername(), user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()));
+        TokenUtility tokenUtility = new TokenUtility(user.getUsername(), this.id, user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()));
         Map<String, String> tokens = tokenUtility.generateTokens(request.getRequestURI());
         response.setContentType(APPLICATION_JSON_VALUE);
         new ObjectMapper().writeValue(response.getOutputStream(), tokens);

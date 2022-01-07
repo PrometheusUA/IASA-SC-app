@@ -1,12 +1,9 @@
 package ua.kpi.iasa.scback.repository.model;
 
 import ua.kpi.iasa.scback.controller.dto.NewsDTO;
-import ua.kpi.iasa.scback.controller.dto.UserDTO;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "news")
